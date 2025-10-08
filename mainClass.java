@@ -7,5 +7,25 @@ printf("ICS143A>");
 	} else {
 		print("invalid command");
 	}
+class Shapes {
+	String name;
+	Shapes (String n) {
+		this.name = n;
+	}
 
+	abstract void print();
+	abstract void draw();
+	abstract double area();
+}
+
+class Circle extends Shapes {
+	private 
+	
+}
+
+class Square extends Shapes {
+}
+
+class Triangle extends Shapes {
+}
 
