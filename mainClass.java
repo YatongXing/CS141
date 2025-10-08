@@ -47,10 +47,7 @@ class Square extends Shape {
 
 	@Override
 	void draw() {
-		int s = Math.max(1, side);
-        String row = "*".repeat(s);
-        for (int i = 0; i < s; ++i) System.out.println(row);
-        System.out.println();
+		//
 	}
 
 	@Override
@@ -76,11 +73,7 @@ class Triangle extends Shape {
 
 	@Override
 	void draw() {
-		int h = Math.max(1, height);
-		for (int i = 1; i <= h; ++i) {
-			System.out.println("*".repeat(i));
-		}
-		System.out.println();
+		//
 	}
 
 	@Override
@@ -103,11 +96,7 @@ class Rectangle extends Square {
 
 	@Override
     void draw() {
-        int h = Math.max(1, side);
-        int w = Math.max(1, width);
-        String row = "*".repeat(w);
-        for (int i = 0; i < h; ++i) System.out.println(row);
-        System.out.println();
+        //
     }
 
     @Override
