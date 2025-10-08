@@ -80,7 +80,7 @@ class Triangle extends Shape {
 		for (int i = 1; i <= h; ++i) {
 			System.out.println("*".repeat(i));
 		}
-		System.out.println()
+		System.out.println();
 	}
 
 	@Override
@@ -141,8 +141,8 @@ class Picture {
 		for (ListNode p = head; p != null; p = p.next) {
 			p.info.print();
 		}
+		System.out.println();
 	}
-	System.out.println();
 
 	void drawAll() {
 		for (ListNode p = head; p != null; p = p.next) {
