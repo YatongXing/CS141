@@ -1,6 +1,6 @@
 class Shape {
 	String name;
-	Shapes (String name) {
+	Shape (String name) {
 		this.name = name;
 	}
 
