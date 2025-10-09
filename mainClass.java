@@ -138,7 +138,7 @@ class Rectangle extends Square {
 
 	@Override
     void draw() {
-        int h = Math.max(2, height);
+        int h = Math.max(2, side);
 		int w = Math.max(2, width);
 	    for (int i = 0; i < h; i++) {
 	        for (int j = 0; j < w; j++) {
