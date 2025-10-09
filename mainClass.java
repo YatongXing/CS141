@@ -98,17 +98,26 @@ class Triangle extends Shape {
 	@Override
 	void draw() {
 		int h = Math.max(2, height);
-	    int b = Math.max(2, base);
-	
+
 	    for (int i = 1; i <= h; i++) {
-	        int width = (int) Math.round((double) i / h * b);
+	        // number of spaces before the first star
+	        int spaces = h - i;
+	        // number of stars (odd numbers: 1, 3, 5, ...)
+	        int stars = 2 * i - 1;
 	
-	        for (int j = 1; j <= width; j++) {
-	            if (i == h || j == 1 || j == width)
+	        // print leading spaces
+	        for (int s = 0; s < spaces; s++) {
+	            System.out.print(" ");
+	        }
+	
+	        // print stars and inner spaces for hollow shape
+	        for (int j = 1; j <= stars; j++) {
+	            if (i == h || j == 1 || j == stars)
 	                System.out.print("*");
 	            else
 	                System.out.print(" ");
 	        }
+	
 	        System.out.println();
 	    }
 	    System.out.println();
