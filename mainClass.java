@@ -97,7 +97,21 @@ class Triangle extends Shape {
 
 	@Override
 	void draw() {
-		//
+		int h = Math.max(2, height);
+	    int b = Math.max(2, base);
+	
+	    for (int i = 1; i <= h; i++) {
+	        int width = (int) Math.round((double) i / h * b);
+	
+	        for (int j = 1; j <= width; j++) {
+	            if (i == h || j == 1 || j == width)
+	                System.out.print("*");
+	            else
+	                System.out.print(" ");
+	        }
+	        System.out.println();
+	    }
+	    System.out.println();
 	}
 
 	@Override
