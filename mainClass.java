@@ -23,7 +23,21 @@ class Circle extends Shape {
 
 	@Override
 	void draw() {
-		//
+		int r = Math.max(2, radius);
+	    double thickness = 0.4;
+	
+	    for (int y = -r; y <= r; y++) {
+	        for (int x = -r; x <= r; x++) {
+	            double distance = Math.sqrt(x * x + y * y);
+	            if (Math.abs(distance - r) < thickness) {
+	                System.out.print("*");
+	            } else {
+	                System.out.print(" ");
+	            }
+	        }
+	        System.out.println();
+	    }
+	    System.out.println();
 	}
 
 	@Override
