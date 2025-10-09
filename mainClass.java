@@ -18,7 +18,7 @@ class Circle extends Shape {
 
 	@Override
 	void print() {
-		System.out.println(name + " (" + radius + ") : " + area());
+		System.out.println("%.2f", name + " (" + radius + ") : " + area());
 	}
 
 	@Override
@@ -56,7 +56,7 @@ class Square extends Shape {
 
 	@Override
 	void print() {
-		System.out.println(name + " (" + side + ") : " + area());
+		System.out.println("%.2f", name + " (" + side + ") : " + area());
 	}
 
 	@Override
@@ -82,7 +82,7 @@ class Triangle extends Shape {
 
 	@Override
 	void print() {
-		System.out.println(name + " (" + base + ", " + height + ") : " + area());
+		System.out.println("%.2f", name + " (" + base + ", " + height + ") : " + area());
 	}
 
 	@Override
@@ -105,7 +105,7 @@ class Rectangle extends Square {
 
 	@Override
 	void print() {
-		System.out.println(name + " (" + side + ", " + width + ") : " + area());
+		System.out.println("%.2f", name + " (" + side + ", " + width + ") : " + area());
 	}
 
 	@Override
