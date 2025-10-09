@@ -61,7 +61,17 @@ class Square extends Shape {
 
 	@Override
 	void draw() {
-		//
+		int s = Math.max(2, side);
+	    for (int i = 0; i < s; i++) {
+	        for (int j = 0; j < s; j++) {
+	            if (i == 0 || i == s - 1 || j == 0 || j == s - 1)
+	                System.out.print("*");
+	            else
+	                System.out.print(" ");
+	        }
+	        System.out.println();
+	    }
+	    System.out.println();
 	}
 
 	@Override
