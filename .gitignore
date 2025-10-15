@@ -1,0 +1,10 @@
+# Java
+*.class
+
+# C/C++
+*.o
+*.out
+main
+
+# macOS
+.DS_Store
