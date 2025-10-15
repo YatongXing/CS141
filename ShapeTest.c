@@ -18,13 +18,28 @@ typedef VirtualTableEntry * VTableType;
 
 #define PI 3.14159
 
-struct Shape{
+struct Shape
+{
     VTableType VPointer;
     string name;
-} Shape;
+};
 
-static inline void print(Shape *s)      { s->VPointer[PRINT_INDEX].void_method(s); }
-static inline void draw(Shape *s)       { s->VPointer[DRAW_INDEX].void_method(s); }
-static inline double area(Shape *s)     { return s->VPointer[AREA_INDEX].double_method(s); }
+void print(Shape *s)      { s->VPointer[PRINT_INDEX].void_method(s); }
+void draw(Shape *s)       { s->VPointer[DRAW_INDEX].void_method(s); }
+double area(Shape *s)     { return s->VPointer[AREA_INDEX].double_method(s); }
 
+struct Circle
+{
+    VTableType VPointer;
+    string name;
+    int radius;
+};
+
+void Circle_print(Circle * _this) {
+    printf("%s(%d) : %.2f\n", _this->name.c_str(), _this->radius, area((Shape*)_this));
+}
+
+void Circle_draw(Circle * _this) {
+    
+}
 
