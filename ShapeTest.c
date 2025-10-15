@@ -161,14 +161,40 @@ Rectangle * Rectangle_Rectangle(Rectangle * _this, string& nm, int s, int w) {
 
 // Picture as free functions on arrray
 void printAll(Shape ** arr, int n) {
-    for (int i=0;i<n;i++) call_print(arr[i]);
+    for (int i=0;i<n;i++) print(arr[i]);
     printf("\n");
 }
 void drawAll(Shape ** arr, int n) {
-    for (int i=0;i<n;i++) call_draw(arr[i]);
+    for (int i=0;i<n;i++) draw(arr[i]);
 }
 double totalArea(Shape ** arr, int n) {
     double sum=0.0;
-    for (int i=0;i<n;i++) sum += call_area(arr[i]);
+    for (int i=0;i<n;i++) sum += area(arr[i]);
     return sum;
+}
+
+int main(int argc, char **argv) {
+    int arg1 = argv[1];
+    int arg2 = argv[2];
+    int arg1b = std::max(1, arg1 - 1);
+    int arg2b = std::max(1, arg2 - 1);
+
+    Shape * a[] = {
+        (Shape*) Triangle_Triangle((Triangle*)malloc(sizeof(Triangle)), "FirstTriangle", arg1, arg2),
+        (Shape*) Triangle_Triangle((Triangle*)malloc(sizeof(Triangle)), "SecondTriangle", arg1b, arg2b),
+
+        (Shape*) Circle_Circle((Circle*)malloc(sizeof(Circle)), "FirstCircle", arg1),
+        (Shape*) Circle_Circle((Circle*)malloc(sizeof(Circle)), "SecondCircle", arg1b),
+
+        (Shape*) Square_Square((Square*)malloc(sizeof(Square)), "FirstSquare", arg1),
+        (Shape*) Square_Square((Square*)malloc(sizeof(Square)), "SecondSquare", arg1b),
+
+        (Shape*) Rectangle_Rectangle((Rectangle*)malloc(sizeof(Rectangle)), "FirstRectangle", arg1, arg2),
+        (Shape*) Rectangle_Rectangle((Rectangle*)malloc(sizeof(Rectangle)), "SecondRectangle", arg1b, arg2b)
+    };
+
+    printAll(a, 8);
+    drawAll(a, 8);
+    printf("Total : %.2f\n", totalArea(a, 8));
+    return 0;
 }
