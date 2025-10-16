@@ -174,8 +174,8 @@ double totalArea(Shape ** arr, int n) {
 }
 
 int main(int argc, char **argv) {
-    int arg1 = std::max(atoi(argv[1]));
-    int arg2 = std::max(atoi(argv[2]));
+    int arg1 = std::max(1, atoi(argv[1]));
+    int arg2 = std::max(1, atoi(argv[2]));
     int arg1b = std::max(1, arg1 - 1);
     int arg2b = std::max(1, arg2 - 1);
 
