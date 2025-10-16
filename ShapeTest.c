@@ -44,14 +44,14 @@ void Circle_draw(Circle * _this) {
 }
 
 double Circle_area(Circle * _this) {
-    return PI * _this->raidus;
+    return PI * _this->radius;
 }
 
 VirtualTableEntry Circle_VTable[] = {
     {.void_method=(void_method_type)Circle_print},
-    {.void_method=(void_method_type)Cicle_draw},
+    {.void_method=(void_method_type)Circle_draw},
     {.double_method=(double_method_type)Circle_area}
-}
+};
 
 Circle * Circle_Circle(Circle * _this, string& nm, int r) {
     _this->VPointer = Circle_VTable;
@@ -84,7 +84,7 @@ VirtualTableEntry Triangle_VTable[] = {
     {.void_method=(void_method_type)Triangle_print},
     {.void_method=(void_method_type)Triangle_draw},
     {.double_method=(double_method_type)Triangle_area}
-}
+};
 
 Triangle * Triangle_Triangle(Triangle * _this, string& nm, int b, int h) {
     _this->VPointer = Triangle_VTable;
@@ -105,7 +105,7 @@ void Square_print(Square * _this) {
     printf("%s(%d) : %.2f\n", _this->name.c_str(), _this->side, area((Shape*)_this));
 }
 
-vodi Square_draw(Square * _this) {
+void Square_draw(Square * _this) {
     //
 }
 
@@ -117,7 +117,7 @@ VirtualTableEntry Square_VTable[] = {
     {.void_method=(void_method_type)Square_print},
     {.void_method=(void_method_type)Square_draw},
     {.double_method=(double_method_type)Square_area}
-}
+};
 
 Square * Square_Square(Square * _this, string& nm, int s) {
     _this->VPointer = Square_VTable;
@@ -150,7 +150,7 @@ VirtualTableEntry Rectangle_VTable[] = {
     {.void_method=(void_method_type)Rectangle_print},
     {.void_method=(void_method_type)Rectangle_draw},
     {.double_method=(double_method_type)Rectangle_area}
-}
+};
 
 Rectangle * Rectangle_Rectangle(Rectangle * _this, string& nm, int s, int w) {
     Square_Square((Square*) _this, nm, s);
@@ -174,8 +174,8 @@ double totalArea(Shape ** arr, int n) {
 }
 
 int main(int argc, char **argv) {
-    int arg1 = argv[1];
-    int arg2 = argv[2];
+    int arg1 = std::max(atoi(argv[1]));
+    int arg2 = std::max(atoi(argv[2]));
     int arg1b = std::max(1, arg1 - 1);
     int arg2b = std::max(1, arg2 - 1);
 
