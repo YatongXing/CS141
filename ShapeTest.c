@@ -53,7 +53,7 @@ VirtualTableEntry Circle_VTable[] = {
     {.double_method=(double_method_type)Circle_area}
 };
 
-Circle * Circle_Circle(Circle * _this, string& nm, int r) {
+Circle * Circle_Circle(Circle * _this, const string& nm, int r) {
     _this->VPointer = Circle_VTable;
     _this->name = nm;
     _this->radius = r;
@@ -86,7 +86,7 @@ VirtualTableEntry Triangle_VTable[] = {
     {.double_method=(double_method_type)Triangle_area}
 };
 
-Triangle * Triangle_Triangle(Triangle * _this, string& nm, int b, int h) {
+Triangle * Triangle_Triangle(Triangle * _this, const string& nm, int b, int h) {
     _this->VPointer = Triangle_VTable;
     _this->name = nm;
     _this->base = b;
@@ -119,7 +119,7 @@ VirtualTableEntry Square_VTable[] = {
     {.double_method=(double_method_type)Square_area}
 };
 
-Square * Square_Square(Square * _this, string& nm, int s) {
+Square * Square_Square(Square * _this, const string& nm, int s) {
     _this->VPointer = Square_VTable;
     _this->name = nm;
     _this->side = s;
@@ -152,7 +152,7 @@ VirtualTableEntry Rectangle_VTable[] = {
     {.double_method=(double_method_type)Rectangle_area}
 };
 
-Rectangle * Rectangle_Rectangle(Rectangle * _this, string& nm, int s, int w) {
+Rectangle * Rectangle_Rectangle(Rectangle * _this, const string& nm, int s, int w) {
     Square_Square((Square*) _this, nm, s);
     _this->VPointer = Rectangle_VTable;
     _this->width = w;
