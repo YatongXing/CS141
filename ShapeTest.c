@@ -44,7 +44,7 @@ void Circle_draw(Circle * _this) {
 }
 
 double Circle_area(Circle * _this) {
-    return PI * _this->radius;
+    return PI * _this->radius * _this->radius;
 }
 
 VirtualTableEntry Circle_VTable[] = {
