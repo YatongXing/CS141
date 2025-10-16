@@ -12,9 +12,9 @@ typedef union {
 
 typedef VirtualTableEntry * VTableType;
 
-#define PRINT_INDEX=0
-#define DRAW_INDEX=1
-#define AREA_INDEX=2
+#define PRINT_INDEX 0
+#define DRAW_INDEX 1
+#define AREA_INDEX 2
 
 #define PI 3.14159
 
