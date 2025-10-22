@@ -124,7 +124,12 @@ class Vector {
    * @return a scalar value with type T (not a vector!) that is the dot product of the
    *    two vectors
    */
-  T operator*(const Vector& v) const {}
+  T operator*(const Vector& v) const {
+   T p{};
+   const size_t n = (sz < v.sz) ? sz : v.sz;
+   for ( size_t i=0; i<n; ++i) p += buf[i] * v.buf[i];
+   return p;
+  }
 
   /**
    * Adds the current vector with the passed vector and returns a new vector.
@@ -133,7 +138,18 @@ class Vector {
    * @param v Vector on the right to perform addition with
    * @return new vector where index i is the result of this[i] + v[i]
    */
-  Vector operator+(const Vector& v) const {}
+  Vector operator+(const Vector& v) const {
+   const size_t n = (sz < v.sz) ? sz : v.sz;
+   Vector s(n);
+   for (size_t i=0; i<n; ++i) {
+    const bool hasL = (i < sz);
+    const bool hasR = (i < v.sz);
+    if (hasL && hasR) s.buf[i] = buf[i] + v.buf[i];
+    else if(hasL) s.buf[i] = buf[i];
+    else s.buf[i] = v.buf[i];
+   }
+   return s;
+  }
 
   /**
    * Destructs the current vector and deep copies the passed vector
