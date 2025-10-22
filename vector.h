@@ -139,7 +139,7 @@ class Vector {
    * @return new vector where index i is the result of this[i] + v[i]
    */
   Vector operator+(const Vector& v) const {
-   const size_t n = (sz < v.sz) ? sz : v.sz;
+   const size_t n = (sz > v.sz) ? sz : v.sz;
    Vector s(n);
    for (size_t i=0; i<n; ++i) {
     const bool hasL = (i < sz);
