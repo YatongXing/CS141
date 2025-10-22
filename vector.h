@@ -74,7 +74,7 @@ class Vector {
    * ex: Vector v1(10); v1.size(); -> will return 10
    * @return size of vector
    */
-  size_t size() const {}
+  size_t size() const { return sz; }
 
   /**
    * Overloads the [] operator and returns a reference to the value at index i in the
@@ -134,7 +134,15 @@ class Vector {
    * @return true if both vectors are deeply equivalent (elem by elem comparison)
    * and false otherwise
    */
-  bool operator==(const Vector& v) const {}
+  bool operator==(const Vector& v) const {
+   if (sz != v.sz) return false;
+   for (size_t i = 0; i < sz; ++i) {
+    if (buf[i] != v.buf[i]) {
+     return false;
+    }
+   }
+   return true;
+  }
 
   /**
    * Determines whether the current vector is not equivalent to the passed vector
@@ -143,7 +151,7 @@ class Vector {
    * @return false if both vectors are deeply equivalent (elem by elem comparison)
    * and true otherwise
    */
-  bool operator!=(const Vector& v) const {}
+  bool operator!=(const Vector& v) const { return !(*this == v); }
 
   /**
    * Multiplies each element in current vector with the passed integer and returns a new vector.
@@ -172,7 +180,15 @@ class Vector {
    * @param v vector that will be printed out
    * @return the ostream passed in
    */
-  inline friend ostream& operator<<(ostream& o, const Vector& v) {}
+  inline friend ostream& operator<<(ostream& o, const Vector& v) {
+   o << "(";
+   for (size_t i = 0; i < v.sz; ++i) {
+    o << v.buf[i];
+    if (i + 1 < v.sz) o << ", ";
+   }
+   o << ")";
+   return o;
+  }
 };
 
 #endif
