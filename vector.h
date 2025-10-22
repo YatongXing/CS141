@@ -72,7 +72,7 @@ class Vector {
    * ex: Vector v2{v1};
    */
   Vector(const Vector& v) : sz(v.sz), buf(nullptr) {
-   buf = (sz = 0) ? nullptr : new T[sz];
+   buf = (sz == 0) ? nullptr : new T[sz];
    for (size_t i=0; i<sz; ++i) buf[i] = v.buf[i];
   }
 
