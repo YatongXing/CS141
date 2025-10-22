@@ -41,13 +41,13 @@ int main() // Here is a start:
     cout << "now iv==intVec? (after iv[2]=5) " << (iv == intVec) << endl;
     
     // dot product (*) uses min length
-    //Vector<int> shortv{2,2};
-    //cout << "intVec * shortv = " << (intVec * shortv) << "  // expect 8" << endl;
+    Vector<int> shortv{2,2};
+    cout << "intVec * shortv = " << (intVec * shortv) << "  // expect 8" << endl;
     
     // vector addition (+) uses max length and copies tail from longer
-    //Vector<int> a{1,2,3};
-    //Vector<int> b{4,5,6,7};
-    //cout << "a+b = " << (a + b) << "  // expect (5, 7, 9, 7)" << endl;
+    Vector<int> a{1,2,3};
+    Vector<int> b{4,5,6,7};
+    cout << "a+b = " << (a + b) << "  // expect (5, 7, 9, 7)" << endl;
     
     // scalar * vector
     //cout << "20 * a = " << (20 * a) << "  // expect (20, 40, 60)" << endl;
