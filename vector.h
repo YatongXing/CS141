@@ -90,7 +90,12 @@ class Vector {
    * ex: v1[2] = 3;
    * @param i index of elem in buf that will be accessed
    */
-  T& operator[](const int i) {}
+  T& operator[](const int i) {
+   if (i < 0 || static_cast<size_t>(i) >= sz) {
+    throw out_of_range("Vector::operator[] index out of range");
+   }
+   return buf[i];
+  }
 
   /**
    * Overloads the [] operator and returns the value of the elem at index i in the
@@ -100,7 +105,12 @@ class Vector {
    * ex: T elemAtInd3 = v1[3];
    * @param i index of elem in buf that will be accessed
    */
-  T operator[](const int i) const {}
+  T operator[](const int i) const {
+   if (i < 0 || static_cast<size_t>(i) >= sz) {
+    throw out_of_range("Vector::operator[] index out of range");
+   }
+   return buf[i];
+  }
 
   /**
    * Dot products the current vector with the passed vector.
