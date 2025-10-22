@@ -37,6 +37,7 @@ int main() // Here is a start:
     // equality / inequality
     cout << "iv==intVec? " << (iv == intVec) << endl;
     cout << "iv!=intVec? " << (iv != intVec) << endl;
+    cout << "iv==doubleVec? " << (iv == doubleVec) << endl;
     
     // dot product (*) uses min length
     //Vector<int> shortv{2,2};
