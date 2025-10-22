@@ -37,7 +37,7 @@ class Vector {
    * @param sz size of vector
    */
   Vector(size_t sz) : sz(sz), buf(nullptr) {
-    buf = (sz == 0) ? nullptr : new T[sz]{};
+    buf = (sz == 0) ? nullptr : new T[sz];
   }
 
   /**
@@ -61,13 +61,20 @@ class Vector {
    * Some versions of valgrind report 72704 bytes in one still-reachable block.
    * You can ignore that.
    */
-  ~Vector() {}
+  ~Vector() {
+   delete[] buf;
+   buf = nullptr;
+   sz = 0;
+  }
 
   /**
    * Copy constructor; makes a new Vector by deep copying the vector passed to it
    * ex: Vector v2{v1};
    */
-  Vector(const Vector& v) {}
+  Vector(const Vector& v) : sz(v.sz), buf(nullptr) {
+   buf = (sz = 0) ? nullptr : new T[sz];
+   for (size_t i=0; i<sz; ++i) buf[i] = v.buf[i];
+  }
 
   /**
    * Returns the size of the vector
@@ -125,7 +132,15 @@ class Vector {
    * @param v Vector on the right to deep copy
    * @return reference to the current object
    */
-  const Vector& operator=(const Vector& v) {}
+  const Vector& operator=(const Vector& v) {
+   if (this==&v) return *this;
+   T* newbuf = (v.sz == 0) ? nullptr : new T[v.sz];
+   for (size_t i=0; i<v.sz; ++i) newbuf[i] = v.buf[i];
+   delete[] buf;
+   buf = newbuf;
+   sz = v.sz;
+   return *this;
+  }
 
   /**
    * Determines whether the current vector is equivalent to the passed vector
@@ -136,7 +151,7 @@ class Vector {
    */
   bool operator==(const Vector& v) const {
    if (sz != v.sz) return false;
-   for (size_t i = 0; i < sz; ++i) {
+   for (size_t i=0; i<sz; ++i) {
     if (buf[i] != v.buf[i]) {
      return false;
     }
@@ -182,7 +197,7 @@ class Vector {
    */
   inline friend ostream& operator<<(ostream& o, const Vector& v) {
    o << "(";
-   for (size_t i = 0; i < v.sz; ++i) {
+   for (size_t i=0; i<v.sz; ++i) {
     o << v.buf[i];
     if (i + 1 < v.sz) o << ", ";
    }
