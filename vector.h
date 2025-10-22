@@ -36,7 +36,9 @@ class Vector {
    * ex: Vector v(10); -> constructs a 10 elem Vector
    * @param sz size of vector
   */
-  Vector(size_t sz) {}
+  Vector(size_t sz) : sz(sz), buf(nullptr) {
+    buf = (sz == 0) ? nullptr : new T[sz]{};
+  }
 
 
   /**
@@ -47,7 +49,11 @@ class Vector {
    *   - L.size() gives the list's size
    *   - You can iterate through it using an iterator
   */
-  Vector(initializer_list<T> L) {}
+  Vector(initializer_list<T> L) : sz(L.size()), buf(nullptr) {
+    buf = (sz == 0) ? nullptr : new T[sz];
+    size_t i = 0;
+    for (const T& v : L) buf[i++] = v;
+  }
 
 
   /**
