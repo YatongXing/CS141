@@ -17,5 +17,17 @@ int main() // Here is a start:
     // "dv(1.5, 2.5, 3.5, 4.5)"
 
     // add at least one test case for each method defined in Vector
+
+    // size()
+    cout << "intVec.size()=" << intVec.size() << endl;
+    cout << "doubleVec.size()=" << doubleVec.size() << endl;
+
+    // operator[] (read/write) + const read
+    cout << "iv[2](before)=" << iv[2] << endl;   // expect 5
+    iv[2] = 100;
+    cout << "iv(after iv[2]=100)=" << iv << endl; // (1, 3, 100, 7, 9)
+    cout << "const read iv[1]=" << static_cast<const Vector<int>&>(iv)[1] << endl;
+
+    
     return 0;
 }
