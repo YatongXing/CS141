@@ -162,7 +162,7 @@ class Vector {
   bool operator==(const Vector& v) const {
    if (sz != v.sz) return false;
    for (size_t i=0; i<sz; ++i) {
-    if (buf[i] != v.buf[i]) {
+    if (!(buf[i] == v.buf[i])) {
      return false;
     }
    }
