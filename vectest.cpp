@@ -32,7 +32,7 @@ int main() // Here is a start:
     Vector<int> asg(0);
     asg = intVec;
     cout << "asg(intVec copied with operator=) " << asg << endl;
-    cout << "asg==intVec? " << boolalpha << (asg == intVec) << endl;
+    cout << "asg==intVec? " << (asg == intVec) << endl;
     
     // equality / inequality
     cout << "iv==intVec? " << (iv == intVec) << endl;
