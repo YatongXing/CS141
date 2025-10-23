@@ -202,7 +202,11 @@ class Vector {
    * @param v Vector on the right to perform multiplication on
    * @return new vector where index i is the result of v[i] * scale
    */
-  inline friend Vector operator*(const int scale, const Vector& v) {}
+  inline friend Vector operator*(const int scale, const Vector& v) {
+   Vector out(v.sz);
+   for (size_t i=0; i<v.sz; ++i) out.buf[i] = v.buf[i] * static_cast<T>(scale);
+   return out;
+  }
 
   /**
    * Adds each element in the current vector with the passed integer and returns a new vector.
@@ -212,7 +216,11 @@ class Vector {
    * @param v Vector on the right to perform addition on
    * @return new vector where index i is the result of v[i] + adder
    */
-  inline friend Vector operator+(const int adder, const Vector& v) {}
+  inline friend Vector operator+(const int adder, const Vector& v) {
+   Vector out(v.sz);
+   for (size_t i=0; i<v.sz; ++i) out.buf[i] = v.buf[i] + static_cast<T>(adder);
+   return out;
+  }
 
   /**
    * Allows the << operator to correctly print out the vector.
