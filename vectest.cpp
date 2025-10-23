@@ -50,22 +50,22 @@ int main() // Here is a start:
     cout << "a+b = " << (a + b) << "  // expect (5, 7, 9, 7)" << endl;
     
     // scalar * vector
-    //cout << "20 * a = " << (20 * a) << "  // expect (20, 40, 60)" << endl;
+    cout << "20 * a = " << (20 * a) << "  // expect (20, 40, 60)" << endl;
     
     // scalar + vector
-    //cout << "20 + a = " << (20 + a) << "  // expect (21, 22, 23)" << endl;
+    cout << "20 + a = " << (20 + a) << "  // expect (21, 22, 23)" << endl;
     
     // operator[] bounds checking (catch exception; program keeps running)
-    /*try {
-        cout << "iv[-1]=" << iv[-1] << endl; // should throw
+    try {
+        cout << "iv[-1]=" << iv[-1] << endl;
     } catch (const std::out_of_range& e) {
         cout << "caught out_of_range (iv[-1])" << endl;
     }
     try {
-        cout << "iv[999]=" << iv[999] << endl; // should throw
+        cout << "iv[999]=" << iv[999] << endl;
     } catch (const std::out_of_range& e) {
         cout << "caught out_of_range (iv[999])" << endl;
-    }*/
+    }
     
     return 0;
 }
