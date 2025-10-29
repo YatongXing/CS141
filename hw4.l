@@ -21,5 +21,11 @@
   (cond ((null l) r)
     (t (rev (cdr l) (cons (car l) r)))))
 
+;5 MY-MAPCAR
+(defun MY-MAPCAR (f l)
+  (cond ((null l) nil)
+    (t (cons (apply f (list (car l))) (MY-MAPCAR f (cdr l))))))
+
+
 
 
