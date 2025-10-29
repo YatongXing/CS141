@@ -108,3 +108,8 @@
     (cond (p (cdr p)) (t l))))
   (t (cons (my-replace alist (car l))
            (my-replace alist (cdr l))))))
+
+
+(print (MY-REPLACE
+         '((UCB . UCLA)(UCSD . UCI)(BASKETBALL . TENNIS))
+         '(UCSD IS PLAYING BASKETBALL AGAINST UCB)))
