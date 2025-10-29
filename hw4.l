@@ -108,6 +108,3 @@
     (cond (p (cdr p)) (t l))))
   (t (cons (my-replace alist (car l))
            (my-replace alist (cdr l))))))
-
-      
-
