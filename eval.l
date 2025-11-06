@@ -41,11 +41,17 @@
 ;; definitions made using defun or setq. Note the global-alist is passed in
 ;; to my-eval only in the call made by my-top defined below.
 
+;; This one is done, it just initializes the global alist where global
+;; settings, like those defined via setq and defun, go.
+
+(defvar global-alist nil)
 
 ;; You need to write this one.
 
 (defun my-assoc (v alist)
-  nil
+	(cond ((null alist) nil)
+		((eq v (car (car alist))) (car alist))
+		(t (my-assoc v (cdr alist))))
 )
 
 ;; This one is done. Note the simple, clean code
@@ -61,6 +67,16 @@
 (defun my-eval-atom (e alist)
 ;; how do you evaluate an atom???
 ;; Remember there are special cases: T, NIL, MY-SYMBOL, 10, "Hello"
+	(cond
+		((eq e t) t)
+		((eq e nil) nil)
+		((numberp e) e)
+		((stringp e) e)
+		((symbolp e)
+			(let ((a (my-assoc e alist))
+				  (g (my-assoc e global-alist)))
+		(cond (a (cdr a)) (g (cdr g)) (t e))))
+	(t e))
 )
 
 ;; my-apply applies a function to arguments. The function may be the
@@ -78,7 +94,11 @@
 ;; in l and returns the value of the last expression
 
 (defun my-eval-list (l alist)
-  nil
+  (cond ((null l) nil)
+		((null (cdr l)) (my-eval (car l) alist))
+		(t (progn (my-eval (car l) alist)
+				  (my-eval-list (cdr l) alist))))
+		
 )
 
 ;; You need to write this one.
@@ -88,7 +108,10 @@
 ;; new scoping context (i.e., that becomes the new alist for recursive
 ;; evaluation of the function body.  Return the value of the last 
 ;; expression in the body (using eval-list)).
-nil
+	(let* ((formals (cadr fn))
+	  (body 	(cddr fn))
+		(newenv	(my-bind-formals formals args alist)))
+	(my-eval-list body newenv))
 )
 
 ;; You need to write this one.
@@ -102,7 +125,12 @@ nil
 ;; e.g., (my-bind-formals '(a) '((add 1 b)) '((b . 10)))
 ;; will return ((a . 11) (b . 10))
 ;; Note there will be one actual parameter for each formal parameter.
-nil
+	(cond 
+		((null formals) alist)
+		((null actuals) (error "Parameter mismatch"))
+		(t (cons (cons (car formals)
+                   (my-eval (car actuals) alist))
+             (my-bind-formals (cdr formals) (cdr actuals) alist))))
 )
 
 ;; You need to write this one.  Handle the primitives as special cases, then
@@ -112,32 +140,65 @@ nil
 ;; This should allow you to interpret your functions from HW4.
 
 (defun my-apply-atom (fn args alist)
-    (cond ((eq fn 'eq)
-           (eq (my-eval (car args) alist) (my-eval (cadr args) alist)))
-          ;; I wrote the first one, eq, for you, you write the rest
-          ((eq fn 'car)
-		    nil
-          )
-          ((eq fn 'cdr)
-		    nil
-          )
-          ((eq fn 'cons)
-		    nil
-          )
-          ((eq fn 'quote)
-		    nil
-          )
-          ((eq fn 'setq) (my-eval-setq ;; you'll have to figure out the arguments to pass
-                                nil nil))
-          ((eq fn 'cond) (my-eval-cond args alist))
-          ((eq fn 'defun) (my-eval-defun args alist))
-          ((eq fn 'eval) (my-eval (my-eval (car args) alist) alist))
-		  ;; in this last case, function must be a variable bound to a function
-		  ;; so get the lambda from the alist and then apply that to the arguments
-          (T (my-apply nil ;; this nil must be replaced by the correct expression
-                       args alist))
-    )
-)
+  (cond
+    ;; equality
+    ((eq fn 'eq)
+     (eq (my-eval (car args) alist)
+         (my-eval (cadr args) alist)))
+    ((eq fn 'equal)
+     (equal (my-eval (car args) alist)
+            (my-eval (cadr args) alist)))
+
+    ;; list primitives
+    ((eq fn 'car)   (car (my-eval (car args) alist)))
+    ((eq fn 'cdr)   (cdr (my-eval (car args) alist)))
+    ((eq fn 'cons)  (cons (my-eval (car args) alist)
+                          (my-eval (cadr args) alist)))
+    ((eq fn 'quote) (car args))
+    ((eq fn 'atom)  (atom (my-eval (car args) alist)))
+    ((eq fn 'null)  (null (my-eval (car args) alist)))
+    ((eq fn 'listp) (listp (my-eval (car args) alist)))
+
+    ;; printing / eval / apply
+    ((eq fn 'print)
+     (let ((v (my-eval (car args) alist)))
+       (print v) v))
+    ((eq fn 'eval)
+     (my-eval (my-eval (car args) alist) alist))
+    ((eq fn 'apply)
+     (let ((f  (my-eval (car args) alist))
+           (as (my-eval (cadr args) alist)))
+       (my-apply f as alist)))
+
+    ;; arithmetic
+    ((eq fn '+)
+     (labels ((sum (xs)
+                (if (null xs) 0
+                  (+ (my-eval (car xs) alist)
+                     (sum (cdr xs))))))
+       (sum args)))
+    ((eq fn '-)
+     (cond ((null args) 0)
+           ((null (cdr args)) (- (my-eval (car args) alist)))
+           (t (- (my-eval (car args) alist)
+                 (my-eval (cadr args) alist)))))
+    ((eq fn 'mod)
+     (mod (my-eval (car args) alist)
+          (my-eval (cadr args) alist)))
+    ((eq fn 'floor)
+     (floor (my-eval (car args) alist)))
+
+    ;; special forms already routed here
+    ((eq fn 'cond)  (my-eval-cond  args alist))
+    ((eq fn 'defun) (my-eval-defun args alist))
+    ((eq fn 'setq)  (my-eval-setq  (car args)
+                                   (my-eval (cadr args) alist)))
+
+    ;; user-defined function name: look up lambda and apply
+    (t (let* ((pair (or (my-assoc fn alist)
+                        (my-assoc fn global-alist)))
+              (lam  (cdr pair)))
+         (my-apply lam args alist)))))
 
 
 ;; setq and defun will push a new association on the global-alist.
@@ -148,16 +209,21 @@ nil
 ;; You need to write this one.
 
 (defun my-eval-setq (var val)
-nil
 ;; just push a new association of the var and its evaluated val onto the
 ;; global alist
+	(setq global-alist (cons (cons var val) global-alist)) val
 )
 
 ;; You need to write this one.  You should know how cond works at this point.
 ;; Remember, cond clauses have one or more expressions in each clause.
 
 (defun my-eval-cond (clauses alist)
-nil
+	(cond ((null clauses) nil)
+		  (t (let ((cl (car clauses)))
+				(cond ((my-eval (car cl) alist)
+					(cond ((null (cdr cl)) t)
+						(t (my-eval-list (cdr cl) alist))))
+				(t (my-eval-cond (cdr clauses) alist))))))
 )
 
 ;; You need to write this one.
@@ -168,13 +234,13 @@ nil
 ;; the function body. defun returns the name of the function.
 
 (defun my-eval-defun (body alist)
-nil
+	(let* ((name	(car body))
+	  (formals	(cadr body))
+    (fbody	(cddr body))
+	  (lam		(cons 'lambda (cons formals fbody))))
+	(setq global-alist (cons (cons name lam) global-alist)) name)
 )
 
-;; This one is done, it just initializes the global alist where global
-;; settings, like those defined via setq and defun, go.
-
-(defvar global-alist nil)
 
 ;; to push a new value, (setq global-alist (cons (cons 'newvar 'newval) global-alist))
 
@@ -195,3 +261,44 @@ nil
             (go top) ;; loops forever
     )
 )
+
+(defun my-run-tests ()
+  (print "=== Testing atoms ===")
+  (print (my-eval 't global-alist))
+  (print (my-eval 'nil global-alist))
+  (print (my-eval '"Hello" global-alist))
+  (print (my-eval '10 global-alist))
+
+  (print "=== Testing primitives ===")
+  (print (my-eval '(eq t t) global-alist))
+  (print (my-eval '(eq nil nil) global-alist))
+  (print (my-eval '(eq t nil) global-alist))
+  (print (my-eval '(null nil) global-alist))
+  (print (my-eval '(null t) global-alist))
+  (print (my-eval '(quote (a b c)) global-alist))
+  (print (my-eval '(eq 'a 'a) global-alist))
+  (print (my-eval '(eq '(a b) '(a b)) global-alist))
+  (print (my-eval '(car '(a b c)) global-alist))
+  (print (my-eval '(cdr '(a b c)) global-alist))
+  (print (my-eval '(cons 'foo '(a b c)) global-alist))
+  (print (my-eval '(print '(a b c)) global-alist))
+
+  (print "=== Testing SETQ and symbol eval ===")
+  (print (my-eval '(setq a '(a b c)) global-alist))
+  (print (my-eval 'a global-alist))
+
+  (print "=== Testing COND ===")
+  (print (my-eval '(cond (nil 2 3 4 5 1) (t 1 3 4 2) (t 1 3 4 5 3)) global-alist))
+  (print (my-eval '(cond ((eq t nil) 1) ((eq t t) 2) (t 3)) global-alist))
+
+  (print "=== Testing DEFUN and recursion ===")
+  (print (my-eval '(defun rev (L R) (cond ((null L) R) (t (rev (cdr L) (cons (car L) R))))) global-alist))
+  (print (my-eval '(rev '(a b c) nil) global-alist))
+
+  (print "=== Testing nested function app ===")
+  (print (my-eval '(defun app (L R) (cond ((null L) R) (t (cons (car L) (app (cdr L) R))))) global-alist))
+  (print (my-eval '(app (app a a) (app a a)) global-alist))
+
+  (print "=== All tests complete ==="))
+    
+(my-run-tests)
