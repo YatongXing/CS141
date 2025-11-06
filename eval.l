@@ -234,13 +234,13 @@
 ;; the function body. defun returns the name of the function.
 
 (defun my-eval-defun (body alist)
-	(let* ((name	(car body))
-	  (formals	(cadr body))
-    (fbody	(cddr body))
-	  (lam		(cons 'lambda (cons formals fbody))))
-	(setq global-alist (cons (cons name lam) global-alist)) name)
-)
-
+  (setq global-alist
+        (cons (cons (car body)
+                    (cons 'lambda
+                          (cons (cadr body)
+                                (cddr body))))
+              global-alist))
+  (car body))
 
 ;; to push a new value, (setq global-alist (cons (cons 'newvar 'newval) global-alist))
 
