@@ -40,13 +40,13 @@ my_subst(X, Y, [H|T], R) :-
   ; R = [H|R1], my_subst(X, Y, T, R1)
   ).
 
-/*
+/* 
 my_subst(_, _, [], []).
-my_subst(X, Y, [H|T], [Y|R1]) :-
+my_subst(X, Y, [H|T], [Y|R]) :-
     H == X, !, 
-    my_subst(X, Y, T, R1).
-my_subst(X, Y, [H|T], [H|R1]) :-
-    my_subst(X, Y, T, R1).
+    my_subst(X, Y, T, R).
+my_subst(X, Y, [H|T], [H|R]) :-
+    my_subst(X, Y, T, R).
 */
 
 % 8) my_subset
@@ -91,5 +91,28 @@ my_merge([H1|T1], [H2|T2], [H1|R]) :-
   my_merge(T1, [H2|T2], R).
 my_merge([H1|T1], [H2|T2], [H2|R]) :-
   my_merge([H1|T1], T2, R).
-  
+
+% 11) my_sublist
+my_sublist([], _) :- !.
+my_sublist(Sub, L) :-
+  starts_with(Sub, L), !.
+my_sublist(Sub, [_|T]) :-
+  my_sublist(Sub, T).
+
+starts_with([], _).
+starts_with([H|TP], [H|TL]) :- starts_with(TP, TL).
+
+% 12) my_assoc
+my_assoc(_, [], _) :- fail.
+my_assoc(A, [A, H|_], H) :- !.
+my_assoc(A, [_B, _C|T], R) :- my_assoc(A, T, R).
+
+% 13) my_replace
+my_replace(_, [], []).
+my_replace(L, [H|T], [R1|R]) :-
+  my_assoc(H, L, R1), !,
+  my_replace(L, T, R).
+my_replace(L, [H|T], [H|R]) :-
+  my_replace(L, T, R).
+
   
