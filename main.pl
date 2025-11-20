@@ -178,8 +178,9 @@ simplify_pow(X, Y, X^Y).
 
 % 7.3  deriv(E,D)
 deriv(E, D) :-
-    deriv_raw(E, D0),
-	simplify(D0, D).
+    simplify(E, E1),
+    deriv_raw(E1, D0),
+    simplify(D0, D).
 
 deriv_raw(x, 1) :- !.
 deriv_raw(C, 0) :- integer(C), !.
