@@ -181,16 +181,9 @@ deriv(E, D) :-
     deriv_raw(E, D0),
 	simplify(D0, D).
 
-% d/dx (x) = 1
 deriv_raw(x, 1) :- !.
-
-% d/dx (constant) = 0
-deriv_raw(C, 0) :-
-    integer(C), !.
-
-% d/dx (-U) = -dU
-deriv_raw(-U, -DU) :-
-    deriv_raw(U, DU), !.
+deriv_raw(C, 0) :- integer(C), !.
+deriv_raw(-U, -DU) :- deriv_raw(U, DU), !.
 
 % d/dx (U+V) = dU + dV
 deriv_raw(U+V, DU+DV) :-
