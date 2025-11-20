@@ -95,5 +95,3 @@ simplify(-X, R) :-
 
 %
 
-% 7.2 simplify(E, S)
-
